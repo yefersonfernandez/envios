@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class CiudadController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.basic', ['only'=> ['show']] );
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth.basic', ['only'=> ['show']] );
+    // }
     /**
      * Display a listing of the resource.
      *

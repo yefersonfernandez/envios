@@ -18,8 +18,8 @@ class ArticuloPedidoTable extends Migration
             $table->integer('cantidad');
             $table->unsignedBigInteger('Articulo_id');
             $table->unsignedBigInteger('Pedido_id');
-            $table->foreign('Pedido_id')->references('id')->on('Pedido');
-            $table->foreign('Articulo_id')->references('id')->on('Articulo');
+            $table->foreign('Pedido_id')->references('id')->on('pedidos');
+            $table->foreign('Articulo_id')->references('id')->on('articulos');
         });
     }
 

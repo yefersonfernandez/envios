@@ -18,9 +18,9 @@ class CreateDireccionEnviosTable extends Migration
             $table->string('descripcion');
             $table->timestamps();
             $table->unsignedBigInteger('Ciudad_id');
-            $table->foreign('Ciudad_id')->references('id')->on('Ciudad');
+            $table->foreign('Ciudad_id')->references('id')->on('ciudads');
             $table->unsignedBigInteger('Cliente_id');
-            $table->foreign('Cliente_id')->references('id')->on('Cliente');
+            $table->foreign('Cliente_id')->references('id')->on('clientes');
         });
     }
 
