@@ -27,7 +27,12 @@ class DatabaseSeeder extends Seeder
         factory(Cliente::class,10)->create();//200
         factory(Articulo::class,10)->create();//200
         factory(DireccionEnvio::class,10)->create();
-        factory(Pedido::class,10)->create();
+        factory(Pedido::class,10)->create()->each(//30
+            function ($pedido){
+                $articulo = Articulo::all()->random(mt_rand(5,9))->pluck('id');//5,20
+                $pedido->rela_Articulo()->attach($articulo);
+            }
+        );
 
     }
 }

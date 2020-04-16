@@ -15,7 +15,7 @@ class ArticuloPedidoTable extends Migration
     {
         Schema::create('articulo_pedido', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('cantidad');
+            $table->integer('cantidad')->nullable();
             $table->unsignedBigInteger('articulo_id');
             $table->unsignedBigInteger('pedido_id');
             $table->foreign('pedido_id')->references('id')->on('pedidos');
