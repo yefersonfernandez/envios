@@ -59,24 +59,27 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+      public function update(Request $request, $id)
     {
         $rules = [
             'email' => 'email',
         ];
+        //dd($request);
         $this->validate($request,$rules);
+        $cliente = Cliente::findOrFail($id);
         $cliente->fill($request->all());
-
-        if( $cliente->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        
 
         //dd($request);
+        if($cliente->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
         $cliente->save();
         
         return $this->successResponse($cliente);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -84,8 +87,9 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
+        $cliente = Cliente::findOrFail($id);
         $cliente->delete();
         return $this->successResponse($cliente);
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Pedido;
+use App\pedido;
 use Illuminate\Http\Request;
 
-class PedidoController extends Controller
+class pedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PedidoController extends Controller
      */
     public function index()
     {
-         $pedidos = Pedido::all();
+         $pedidos = pedido::all();
         return $this->successResponse( $pedidos);
     }
 
@@ -27,64 +27,67 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'fechaPedido' => 'required',
-            'DireccionEnvio_id' => 'required'
+            'fechapedido' => 'required',
+            'direccionEnvio_id' => 'required'
         ];
         $this->validate($request,$rules);
         
         $campos = $request->all();
         //dd($campos);
-        $Pedido = Pedido::create($campos);
-        return $this->successResponse($Pedido);
+        $pedido = pedido::create($campos);
+        return $this->successResponse($pedido);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pedido  $Pedido
+     * @param  \App\pedido  $pedido
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $Pedido = Pedido::findOrFail($id);
-        return $Pedido;
+        $pedido = pedido::findOrFail($id);
+        return $pedido;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pedido  $Pedido
+     * @param  \App\pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pedido $Pedido)
+    public function update(Request $request, $id)
     {
         $rules = [
-            'fechaPedido' => 'fechaPedido',
+            'fechaPedido' => 'date',
         ];
+        //dd($request);
         $this->validate($request,$rules);
-        $Pedido->fill($request->all());
-
-        if($Pedido->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        $pedido = Pedido::findOrFail($id);
+        $pedido->fill($request->all());
+        
 
         //dd($request);
+        if($pedido->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
-        $Pedido->save();
+        $pedido->save();
         
-        return $this->successResponse($Pedido);
+        return $this->successResponse($pedido);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pedido  $Pedido
+     * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pedido $Pedido)
+    public function destroy($id)
     {
-        $Pedido->delete();
-        return $this->successResponse($Pedido);
+        $pedido = Pedido::findOrFail($id);
+        $pedido->delete();
+        return $this->successResponse($pedido);
     }
 }

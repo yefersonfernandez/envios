@@ -11,7 +11,7 @@ class Pedido extends Model
     protected $fillable = [
         'id',
         'fechaPedido',
-        'DireccionEnvio_id'
+        'direccionEnvio_id'
     ];
 
     public function rela_DireccionEnvio()

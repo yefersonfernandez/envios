@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Database\QueryException;
-
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
@@ -80,6 +79,10 @@ class Handler extends ExceptionHandler
             $code = $exception->getStatusCode();
             $message = $exception->getMessage();
             return $this->errorResponse($message, $code);
+        }
+        if ($exception instanceof AuthenticationException){
+            return response()->json(['error' => 'Error de Autentificacion'], 401);
+
         }
 
         if(config('app.debug')){

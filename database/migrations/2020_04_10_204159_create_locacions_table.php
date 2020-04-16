@@ -17,9 +17,9 @@ class CreateLocacionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('longitud');
             $table->string('latitud');
+            $table->unsignedBigInteger('direccionEnvio_id');
             $table->timestamps();
-            $table->unsignedBigInteger('DireccionEnvio_id');
-            $table->foreign('DireccionEnvio_id')->references('id')->on('direccionEnvios');
+            $table->foreign('direccionEnvio_id')->references('id')->on('direccionEnvios');
         });
     }
 

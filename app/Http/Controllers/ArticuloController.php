@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('client-credentials');
+        // $this->middleware('client-credentials', ['only'=> ['show']] );
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -58,34 +65,36 @@ class ArticuloController extends Controller
      * @param  \App\Articulo  $Articulo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Articulo $Articulo)
+    public function update(Request $request, $id)
     {
         $rules = [
-            'valorUnitario' => 'valorUnitario',
+            'valorUnitario' => 'number',
         ];
+        //dd($request);
         $this->validate($request,$rules);
-        $Articulo->fill($request->all());
-
-        if($Articulo->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        $articulo = Articulo::findOrFail($id);
+        $articulo->fill($request->all());
+        
 
         //dd($request);
+        if($articulo->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
-        $Articulo->save();
+        $articulo->save();
         
-        return $this->successResponse($Articulo);
+        return $this->successResponse($articulo);
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Articulo  $Articulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Articulo $Articulo)
+    public function destroy($id)
     {
-        $Articulo->delete();
-        return $this->successResponse($Articulo);
+        $articulo = Articulo::findOrFail($id);
+        $articulo->delete();
+        return $this->successResponse($articulo);
     }
 }

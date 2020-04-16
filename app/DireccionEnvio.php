@@ -12,8 +12,8 @@ class DireccionEnvio extends Model
     protected $fillable = [
         'id',
         'descripcion',
-        'Ciudad_id',
-        'Cliente_id'
+        'ciudad_id',
+        'cliente_id'
     ];
 
     public function rela_Ciudad()
@@ -32,6 +32,11 @@ class DireccionEnvio extends Model
     {
 
         return $this->hasMany(Locacion::class);
+    }
+    public function rela_Pedido()
+    {
+
+        return $this->hasMany(DireccionEnvio::class);
     }
 
 }

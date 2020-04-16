@@ -10,7 +10,7 @@ class Locacion extends Model
         'id',
         'longitud',
         'latitud',
-        'DireccionEnvio_id'
+        'direccionEnvio_id'
     ];
 
     public function rela_DireccionEnvio()

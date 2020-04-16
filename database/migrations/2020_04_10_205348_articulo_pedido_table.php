@@ -16,10 +16,10 @@ class ArticuloPedidoTable extends Migration
         Schema::create('articulo_pedido', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('cantidad');
-            $table->unsignedBigInteger('Articulo_id');
-            $table->unsignedBigInteger('Pedido_id');
-            $table->foreign('Pedido_id')->references('id')->on('pedidos');
-            $table->foreign('Articulo_id')->references('id')->on('articulos');
+            $table->unsignedBigInteger('articulo_id');
+            $table->unsignedBigInteger('pedido_id');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->foreign('articulo_id')->references('id')->on('articulos');
         });
     }
 

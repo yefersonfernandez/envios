@@ -7,10 +7,7 @@ use Illuminate\Http\Request;
 
 class CiudadController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth.basic', ['only'=> ['show']] );
-    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +15,8 @@ class CiudadController extends Controller
      */
     public function index()
     {
-        $ciudads = Ciudad::all();
-        return $this->successResponse($ciudads);
+        $ciudad = Ciudad::all();
+        return $this->successResponse($ciudad);
     }
 
     /**
@@ -60,19 +57,21 @@ class CiudadController extends Controller
      * @param  \App\Ciudad  $ciudad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ciudad $ciudad)
+    public function update(Request $request, $id)
     {
         $rules = [
-            'nombre' => 'nombre',
+            'nombre' => 'string',
         ];
+        //dd($request);
         $this->validate($request,$rules);
+        $ciudad = Ciudad::findOrFail($id);
         $ciudad->fill($request->all());
-
-        if($ciudad->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        
 
         //dd($request);
+        if($ciudad->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
         $ciudad->save();
         
@@ -85,8 +84,9 @@ class CiudadController extends Controller
      * @param  \App\Ciudad  $ciudad
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ciudad $ciudad)
+    public function destroy($id)
     {
+        $ciudad = Ciudad::findOrFail($id);
         $ciudad->delete();
         return $this->successResponse($ciudad);
     }

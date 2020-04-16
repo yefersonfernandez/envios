@@ -29,7 +29,7 @@ class LocacionController extends Controller
         $rules = [
             'longitud' => 'required',
             'latitud' => 'required',
-            'DireccionEnvio_id' => 'required'
+            'direccionEnvio_id' => 'required'
         ];
         $this->validate($request,$rules);
         
@@ -58,34 +58,36 @@ class LocacionController extends Controller
      * @param  \App\Locacion  $Locacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Locacion $Locacion)
+     public function update(Request $request, $id)
     {
         $rules = [
-            'longitud' => 'longitud',
+            'longitud' => 'number',
         ];
+        //dd($request);
         $this->validate($request,$rules);
-        $Locacion->fill($request->all());
-
-        if($Locacion->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        $locacion = Locacion::findOrFail($id);
+        $locacion->fill($request->all());
+        
 
         //dd($request);
+        if($locacion->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
-        $Locacion->save();
+        $locacion->save();
         
-        return $this->successResponse($Locacion);
+        return $this->successResponse($locacion);
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Locacion  $Locacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Locacion $Locacion)
+    public function destroy($id)
     {
-        $Locacion->delete();
-        return $this->successResponse($Locacion);
+        $locacion = Locacion::findOrFail($id);
+        $locacion->delete();
+        return $this->successResponse($locacion);
     }
 }

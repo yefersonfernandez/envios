@@ -16,11 +16,11 @@ class CreateDireccionEnviosTable extends Migration
         Schema::create('direccion_envios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('descripcion');
+            $table->unsignedBigInteger('ciudad_id');
+            $table->unsignedBigInteger('cliente_id');
             $table->timestamps();
-            $table->unsignedBigInteger('Ciudad_id');
-            $table->foreign('Ciudad_id')->references('id')->on('ciudads');
-            $table->unsignedBigInteger('Cliente_id');
-            $table->foreign('Cliente_id')->references('id')->on('clientes');
+            $table->foreign('ciudad_id')->references('id')->on('ciudads');
+            $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }
 

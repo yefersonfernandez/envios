@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class DireccionEnvioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.                                                      
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
          $direccionEnvios = DireccionEnvio::all();
-        return $this->successResponse( $direccionEnvios);
+         return $this->successResponse($direccionEnvios);
     }
 
     /**
@@ -28,8 +28,8 @@ class DireccionEnvioController extends Controller
     {
         $rules = [
             'descripcion' => 'required',
-            'Ciudad_id' => 'required',
-            'Cliente_id' => 'required'
+            'ciudad_id' => 'required',
+            'cliente_id' => 'required'
         ];
         $this->validate($request,$rules);
         
@@ -58,34 +58,36 @@ class DireccionEnvioController extends Controller
      * @param  \App\DireccionEnvio  $DireccionEnvio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DireccionEnvio $DireccionEnvio)
+    public function update(Request $request, $id)
     {
         $rules = [
-            'descripcion' => 'descripcion',
+            'descripcion' => 'string',
         ];
+        //dd($request);
         $this->validate($request,$rules);
-        $DireccionEnvio->fill($request->all());
-
-        if($DireccionEnvio->isClean()){
-            return $this->errorResponse("No se hicieron cambios",422);
-        }
+        $direccionEnvio = DireccionEnvio::findOrFail($id);
+        $direccionEnvio->fill($request->all());
+        
 
         //dd($request);
+        if($direccionEnvio->isClean()){
+            return response()->json("No se hicieron cambios",422);
+        }
 
-        $DireccionEnvio->save();
+        $direccionEnvio->save();
         
-        return $this->successResponse($DireccionEnvio);
+        return $this->successResponse($direccionEnvio);
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\DireccionEnvio  $DireccionEnvio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DireccionEnvio $DireccionEnvio)
+    public function destroy($id)
     {
-        $DireccionEnvio->delete();
-        return $this->successResponse($DireccionEnvio);
+        $direccionEnvio = DireccionEnvio::findOrFail($id);
+        $direccionEnvio->delete();
+        return $this->successResponse($direccionEnvio);
     }
 }

@@ -16,9 +16,9 @@ class CreatePedidosTable extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->DateTime('fechaPedido');
+            $table->unsignedBigInteger('direccionEnvio_id');
             $table->timestamps();
-            $table->unsignedBigInteger('DireccionEnvio_id');
-            $table->foreign('DireccionEnvio_id')->references('id')->on('direccionEnvios');
+            $table->foreign('direccionEnvio_id')->references('id')->on('direccionEnvios');
         });
     }
 
